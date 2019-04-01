@@ -19,28 +19,19 @@ export default function NotesView() {
         return getAllNotes()
     }, []); 
 
- /*    function onSelectNote(id) {
-        setSelectedNote(id)
-        setMode(undefined)
-    } */
-
- /*    function onCancelNote() {
-        setSelectedNote(undefined),
-        setMode(undefined)
-    }
- */
     function onAction(type, id) {
         switch (type) {
             case 'selectNote':
                 setSelectedNote(id)
+                setMode('editing')
                 break;
             case 'cancelNote':
                 setSelectedNote(undefined)
+                setMode(undefined)
                 break
             default:
                 break;
         }
-        setMode(undefined)
     }
 
     console.log('!!!!', noteList, selectedNote)

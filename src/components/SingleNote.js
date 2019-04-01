@@ -18,15 +18,22 @@ export default function SingleNote(props) {
 
     console.log('>>>>', props, title, content)
     return (
-        <React.Fragment>
-            <Button style={styles.cancelButton} onClick={()=>props.onCancel()}><i class="fas fa-times"></i></Button>
+        <div style={styles.container}>
             <FormControl value={title} style={styles.title} onChange={e => setTitle(e.target.value)}/>
-            <input class="form-control" type="textarea" value={content} style={styles.content} onChange={e => setContent(e.target.value)}/>
-        </React.Fragment>
+            <textarea class="form-control" type="textarea" value={content} style={styles.content} onChange={e => setContent(e.target.value)}/>
+            <Button style={styles.saveButton}><i class="fas fa-check"></i></Button>
+            <Button style={styles.cancelButton} onClick={()=>props.onCancel()}><i class="fas fa-times"></i></Button>
+        </div>
     );
 }
 
 const styles = {
+    container: {
+        padding: '40px',
+        margin: '40px',
+        border: '1px solid grey',
+        borderRadius: '4px'
+    },
     title: {
         border: '0px',
         fontSize: '25pt',
@@ -35,10 +42,23 @@ const styles = {
     },
     content: {
         border: '0px',
-        '-webkit-box-shadow': '10px 10px 5px 0px rgba(255,255,255,1)'
+        '-webkit-box-shadow': '10px 10px 5px 0px rgba(255,255,255,1)',
+        maxWidth: '100%',
+        resize: 'none',
     },
     cancelButton: {
         float: 'right',
-        border: '0px'
+        borderRadius: '45px',
+        marginRight: '20px',
+        color: 'red',
+        fontSize: '25pt',
+        paddingLeft: '18px',
+        paddingRight: '17px',
+    },
+    saveButton: {
+        float: 'right',
+        borderRadius: '45px',
+        color: 'green',
+        fontSize: '25pt',
     }
 }
