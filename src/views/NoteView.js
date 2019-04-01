@@ -19,8 +19,27 @@ export default function NotesView() {
         return getAllNotes()
     }, []); 
 
-    function onSelectNote(id) {
+ /*    function onSelectNote(id) {
         setSelectedNote(id)
+        setMode(undefined)
+    } */
+
+ /*    function onCancelNote() {
+        setSelectedNote(undefined),
+        setMode(undefined)
+    }
+ */
+    function onAction(type, id) {
+        switch (type) {
+            case 'selectNote':
+                setSelectedNote(id)
+                break;
+            case 'cancelNote':
+                setSelectedNote(undefined)
+                break
+            default:
+                break;
+        }
         setMode(undefined)
     }
 
@@ -30,7 +49,7 @@ export default function NotesView() {
             <Col md="4">
                 <NoteList 
                     notes={noteList}
-                    selectedNote={id=> onSelectNote(id)}
+                    selectedNote={id=> onAction('selectNote', id)}
                     onClickAdd={()=> setMode('Add')}
                 />
             </Col>
@@ -38,7 +57,7 @@ export default function NotesView() {
             {(selectedNote || mode === 'Add')?
                 <SingleNote 
                     selectedNote={noteList.find(note => note.id === selectedNote)}
-                    onCancel={()=>setSelectedNote(undefined)}
+                    onCancel={()=>onAction('cancelNote', undefined)}
                     mode={mode}
                 />
                 : null
