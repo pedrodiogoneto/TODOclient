@@ -9,6 +9,7 @@ import noteApi from '../API/noteAPI'
 export default function NotesView() {
     const [noteList, setNoteList] = useState([])
     const [selectedNote, setSelectedNote] = useState(undefined)
+    const [mode, setMode] = useState(undefined)
 
     useEffect(() => {
         async function getAllNotes() {
@@ -18,20 +19,27 @@ export default function NotesView() {
         return getAllNotes()
     }, []); 
 
+    function onSelectNote(id) {
+        setSelectedNote(id)
+        setMode(undefined)
+    }
+
     console.log('!!!!', noteList, selectedNote)
     return (
         <React.Fragment>
             <Col md="4">
                 <NoteList 
                     notes={noteList}
-                    selectedNote={id=>setSelectedNote(id)}
+                    selectedNote={id=> onSelectNote(id)}
+                    onClickAdd={()=> setMode('Add')}
                 />
             </Col>
             <Col md="8">
-            {selectedNote?
+            {(selectedNote || mode === 'Add')?
                 <SingleNote 
                     selectedNote={noteList.find(note => note.id === selectedNote)}
-                    onCancel={()=>setSelectedNote(undefined)} 
+                    onCancel={()=>setSelectedNote(undefined)}
+                    mode={mode}
                 />
                 : null
             }

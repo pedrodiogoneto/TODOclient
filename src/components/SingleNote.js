@@ -3,14 +3,20 @@ import { Col, FormControl, Button } from 'react-bootstrap'
 
 export default function SingleNote(props) {
 
-    //const [selectedNote, setSelectedNote] = useState(props.selectedNote)
-    const [title, setTitle] = useState(props.selectedNote.title)
-    const [content, setContent] = useState(props.selectedNote.content)
+    const [title, setTitle] = useState(props.selectedNote?props.selectedNote.title:undefined)
+    const [content, setContent] = useState(props.selectedNote?props.selectedNote.content:undefined)
 
-    useEffect(() => setTitle(props.selectedNote.title), [props.selectedNote.title])
-    useEffect(() => setContent(props.selectedNote.content), [props.selectedNote.content])
+    useEffect(()=> {
+        if(props.mode !== 'Add') return
+        setTitle('NEW NOTE')
+        setContent('Add a description')
+        console.log('!!!!!!!!!!!!!!!!!!!', title, content, props.mode)
+    }, [props.mode])
 
-    console.log('>>>>', props)
+    useEffect(() => setTitle(props.selectedNote?props.selectedNote.title:'NEW NOTE'), [props.selectedNote])
+    useEffect(() => setContent(props.selectedNote?props.selectedNote.content:'Add a description'), [props.selectedNote])
+
+    console.log('>>>>', props, title, content)
     return (
         <React.Fragment>
             <Button style={styles.cancelButton} onClick={()=>props.onCancel()}><i class="fas fa-times"></i></Button>

@@ -18,7 +18,7 @@ export default function NoteList(props) {
         <React.Fragment>
             <Row style={styles.titleRow}>
                 <ControlLabel style={styles.logo}>TODO!!!</ControlLabel>
-                <Button style={styles.addButton}><i class="fas fa-plus"></i></Button>
+                <Button style={styles.addButton} onClick={()=> props.onClickAdd()}><i class="fas fa-plus"></i></Button>
             </Row>
             <Row >
                 <Button style={styles.serachIcon}><i class="fas fa-search"></i></Button>
