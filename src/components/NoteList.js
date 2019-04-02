@@ -4,13 +4,25 @@ import { Col, ControlLabel, Row, Button, FormControl, ListGroup, ListGroupItem }
 export default function NoteList(props) {
 
     const [noteList, setNoteList] = useState(props.notes)
+    const [searchTimeout, setSearchTimeout] = useState()
 
-    useEffect(() => setNoteList(props.notes))
+    useEffect(() => setNoteList(props.notes), [props.notes])
 
     function renderNoteList() {
         if(noteList)return noteList.map(note => {
            return <ListGroupItem key={note.id} onClick={()=>props.selectedNote(note.id)} style={styles.listItem}>{note.title}</ListGroupItem>
         })
+    }
+
+    function handleSearch(e) {
+        clearTimeout(searchTimeout);
+        setSearchTimeout(setTimeout(() => {
+            const filteredList = props.notes.filter(note => { 
+                if(note.title.includes(e) || note.content.includes(e)) return note 
+            })
+            if(noteList.length === filteredList.length) return
+            setNoteList(filteredList)
+        }, 100))
     }
 
     console.log('NOTELIST AT NOTELIST', noteList, props)
@@ -21,8 +33,8 @@ export default function NoteList(props) {
                 <Button style={styles.addButton} onClick={()=> props.onClickAdd()}><i class="fas fa-plus"></i></Button>
             </Row>
             <Row >
-                <Button style={styles.serachIcon}><i class="fas fa-search"></i></Button>
-                <FormControl style={styles.searchBox} />
+                <i style={styles.serachIcon} class="fas fa-search"></i>
+                <FormControl style={styles.searchBox} placeholder={'Search by...'} onChange={e=> handleSearch(e.target.value)}/>
             </Row>
             <Row>
                 <ListGroup>{ renderNoteList() }</ListGroup>    
@@ -49,7 +61,8 @@ const styles = {
         width: '85%'
     },
     serachIcon: {
-        border: '0px'
+        border: '0px',
+        margin: '10px'
     },
     listItem: {
         
