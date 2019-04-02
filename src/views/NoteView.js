@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Col } from 'react-bootstrap'
+import axios from 'axios'
 
 import NoteList from '../components/NoteList'
 import SingleNote from '../components/SingleNote'
@@ -19,11 +20,11 @@ export default function NotesView() {
         return getAllNotes()
     }, []); 
 
-    function onAction(type, ...args) {
+    async function onAction(type, ...args) {
         switch (type) {
             case 'selectNote':
-                const [ selectAction , id ] = arguments
-                setSelectedNote(id)
+                const [ selectAction , _id ] = arguments
+                setSelectedNote(_id)
                 setMode('editing')
                 break;
             case 'cancelNote':
@@ -31,9 +32,15 @@ export default function NotesView() {
                 setMode(undefined)
                 break
             case 'saveNote':
-                const [ saveAction , title, content ] = arguments
-                /* API REQUEST TO SAVE 
-                let res = */
+                const [ saveAction , saveTitle, saveContent, saveId ] = arguments
+                let newNoteList = await noteApi.saveNewNote(saveTitle, saveContent, saveId)
+                setNoteList(newNoteList)
+                onAction('cancelNote')
+            case 'editNote':
+                const [ editAction , editTitle, editContent, editId ] = arguments
+                newNoteList = await noteApi.editNote(editTitle, editContent, editId)
+                console.log(newNoteList)
+                setNoteList(newNoteList)
                 onAction('cancelNote')
             default:
                 break;
@@ -52,9 +59,9 @@ export default function NotesView() {
             <Col md="8">
             {(selectedNote || mode === 'Add')?
                 <SingleNote 
-                    selectedNote={noteList.find(note => note.id === selectedNote)}
+                    selectedNote={noteList.find(note => note._id === selectedNote)}
                     onCancel={()=>onAction('cancelNote', undefined)}
-                    onSave={(title, content)=> onAction('saveNote', title, content)}
+                    onSave={(title, content, id)=> onAction( mode === 'Add' ? 'saveNote' : 'editNote', title, content, id)}
                     mode={mode}
                 />
                 : null
