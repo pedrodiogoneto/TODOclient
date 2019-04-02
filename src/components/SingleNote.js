@@ -21,7 +21,7 @@ export default function SingleNote(props) {
         <div style={styles.container}>
             <FormControl value={title} style={styles.title} onChange={e => setTitle(e.target.value)}/>
             <textarea class="form-control" type="textarea" value={content} style={styles.content} onChange={e => setContent(e.target.value)}/>
-            <Button style={styles.saveButton}><i class="fas fa-check"></i></Button>
+            <Button style={styles.saveButton} onClick={()=>props.onSave(title, content)}><i class="fas fa-check"></i></Button>
             <Button style={styles.cancelButton} onClick={()=>props.onCancel()}><i class="fas fa-times"></i></Button>
         </div>
     );
@@ -38,11 +38,11 @@ const styles = {
         border: '0px',
         fontSize: '25pt',
         margin: '20px 0px',
-        '-webkit-box-shadow': '10px 10px 5px 0px rgba(255,255,255,1)'
+        'WebkitBoxShadow': '10px 10px 5px 0px rgba(255,255,255,1)'
     },
     content: {
         border: '0px',
-        '-webkit-box-shadow': '10px 10px 5px 0px rgba(255,255,255,1)',
+        'WebkitBoxShadow': '10px 10px 5px 0px rgba(255,255,255,1)',
         maxWidth: '100%',
         resize: 'none',
     },

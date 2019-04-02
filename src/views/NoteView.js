@@ -19,9 +19,10 @@ export default function NotesView() {
         return getAllNotes()
     }, []); 
 
-    function onAction(type, id) {
+    function onAction(type, ...args) {
         switch (type) {
             case 'selectNote':
+                const [ selectAction , id ] = arguments
                 setSelectedNote(id)
                 setMode('editing')
                 break;
@@ -29,12 +30,16 @@ export default function NotesView() {
                 setSelectedNote(undefined)
                 setMode(undefined)
                 break
+            case 'saveNote':
+                const [ saveAction , title, content ] = arguments
+                /* API REQUEST TO SAVE 
+                let res = */
+                onAction('cancelNote')
             default:
                 break;
         }
     }
 
-    console.log('!!!!', noteList, selectedNote)
     return (
         <React.Fragment>
             <Col md="4">
@@ -49,6 +54,7 @@ export default function NotesView() {
                 <SingleNote 
                     selectedNote={noteList.find(note => note.id === selectedNote)}
                     onCancel={()=>onAction('cancelNote', undefined)}
+                    onSave={(title, content)=> onAction('saveNote', title, content)}
                     mode={mode}
                 />
                 : null
