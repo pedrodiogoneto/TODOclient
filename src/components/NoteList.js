@@ -10,7 +10,7 @@ export default function NoteList(props) {
 
     function renderNoteList() {
         if(noteList)return noteList.map(note => {
-           return <ListGroupItem key={note._id} onClick={()=>props.selectedNote(note._id)} style={styles.listItem}>{note.title}</ListGroupItem>
+            return <ListGroupItem key={note._id} onClick={()=>props.selectedNote(note._id)} style={styles.listItem}>{note.title}</ListGroupItem>
         })
     }
 

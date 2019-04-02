@@ -17,9 +17,10 @@ export default function SingleNote(props) {
     useEffect(() => setContent(props.selectedNote?props.selectedNote.content:'Add a description'), [props.selectedNote])
 
     console.log('>>>>', props, title, content)
-    const noteId = props.mode === "add" ? null : props.selectedNote._id
+    const noteId = props.mode === "Add" ? null : props.selectedNote._id
     return (
         <div style={styles.container}>
+            <Button onClick={()=> props.onDelete(noteId)}>DELETE!!!</Button>
             <FormControl value={title} style={styles.title} onChange={e => setTitle(e.target.value)}/>
             <textarea class="form-control" type="textarea" value={content} style={styles.content} onChange={e => setContent(e.target.value)}/>
             <Button style={styles.saveButton} onClick={()=>props.onSave(title, content, noteId)}><i class="fas fa-check"></i></Button>

@@ -1,20 +1,26 @@
 import axios from "axios";
-import URLS from "../helpers/URLS";
 
 function noteAPI() {
     
         async function getAllNotes() {
-            const res = await axios.get('http://localhost:3000' + URLS.GET_ALL_NOTES)
+            const res = await axios.get('http://localhost:3000/')
             return res.data
         }
 
-        async function saveNewNote(saveTitle, saveContent, saveId) {
-            const res = await axios.post('http://localhost:3000/', { saveTitle, saveContent, saveId })
+        async function saveNewNote(title, content, id) {
+            console.log(title, content, id)
+            const res = await axios.post('http://localhost:3000/', { title, content, id })
             return res.data
         }
 
-        async function editNote(editTitle, editContent, editId) {
-            const res = await axios.post(`http://localhost:3000/${editId}`, { editTitle, editContent, editId })
+        async function editNote(title, content, id) {
+            const res = await axios.post(`http://localhost:3000/${id}`, { title, content, id })
+            return res.data
+        }
+
+
+        async function deleteNote(id) {
+            const res = await axios.delete(`http://localhost:3000/${id}`)
             return res.data
         }
 
@@ -23,6 +29,7 @@ function noteAPI() {
         getAllNotes,
         saveNewNote,
         editNote,
+        deleteNote,
     };
 }
 

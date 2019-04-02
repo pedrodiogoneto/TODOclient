@@ -21,10 +21,10 @@ export default function NotesView() {
     }, []); 
 
     async function onAction(type, ...args) {
+        const [ action, id, title, content ] = arguments
         switch (type) {
             case 'selectNote':
-                const [ selectAction , _id ] = arguments
-                setSelectedNote(_id)
+                setSelectedNote(id)
                 setMode('editing')
                 break;
             case 'cancelNote':
@@ -32,16 +32,17 @@ export default function NotesView() {
                 setMode(undefined)
                 break
             case 'saveNote':
-                const [ saveAction , saveTitle, saveContent, saveId ] = arguments
-                let newNoteList = await noteApi.saveNewNote(saveTitle, saveContent, saveId)
+                let newNoteList = await noteApi.saveNewNote(id, title, content)
                 setNoteList(newNoteList)
                 onAction('cancelNote')
             case 'editNote':
-                const [ editAction , editTitle, editContent, editId ] = arguments
-                newNoteList = await noteApi.editNote(editTitle, editContent, editId)
-                console.log(newNoteList)
-                setNoteList(newNoteList)
+                let editedList = await noteApi.editNote(id, title, content)
                 onAction('cancelNote')
+                setNoteList(editedList)
+            case 'deleteNote':
+                let newList = await noteApi.deleteNote(id)
+                onAction('cancelNote')
+                setNoteList(newList)
             default:
                 break;
         }
@@ -62,6 +63,7 @@ export default function NotesView() {
                     selectedNote={noteList.find(note => note._id === selectedNote)}
                     onCancel={()=>onAction('cancelNote', undefined)}
                     onSave={(title, content, id)=> onAction( mode === 'Add' ? 'saveNote' : 'editNote', title, content, id)}
+                    onDelete={(id)=> onAction('deleteNote', id)}
                     mode={mode}
                 />
                 : null
