@@ -8,7 +8,6 @@ function noteAPI() {
         }
 
         async function saveNewNote(title, content, id) {
-            console.log(title, content, id)
             const res = await axios.post('http://localhost:3000/', { title, content, id })
             return res.data
         }
@@ -18,13 +17,11 @@ function noteAPI() {
             return res.data
         }
 
-
         async function deleteNote(id) {
             const res = await axios.delete(`http://localhost:3000/${id}`)
             return res.data
         }
 
-    
     return {
         getAllNotes,
         saveNewNote,

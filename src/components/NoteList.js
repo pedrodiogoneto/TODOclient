@@ -8,24 +8,23 @@ export default function NoteList(props) {
 
     useEffect(() => setNoteList(props.notes), [props.notes])
 
+    function handleSearch(e) {
+        clearTimeout(searchTimeout);
+        setSearchTimeout(setTimeout(() => {
+            const filteredList = props.notes.filter(note => { 
+                if(note.title.toLowerCase().includes(e.toLowerCase()) || note.content.toLowerCase().includes(e.toLowerCase())) return note 
+            })
+            if(noteList.length === filteredList.length) return
+            setNoteList(filteredList)
+        }, 100))
+    }
+    
     function renderNoteList() {
         if(noteList)return noteList.map(note => {
             return <ListGroupItem key={note._id} onClick={()=>props.selectedNote(note._id)} style={styles.listItem}>{note.title}</ListGroupItem>
         })
     }
 
-    function handleSearch(e) {
-        clearTimeout(searchTimeout);
-        setSearchTimeout(setTimeout(() => {
-            const filteredList = props.notes.filter(note => { 
-                if(note.title.includes(e) || note.content.includes(e)) return note 
-            })
-            if(noteList.length === filteredList.length) return
-            setNoteList(filteredList)
-        }, 100))
-    }
-
-    console.log('NOTELIST AT NOTELIST', noteList, props)
     return (
         <div style={styles.container}>
             <Row style={styles.titleRow}>
@@ -61,15 +60,12 @@ const styles = {
     },
     searchBox: {
         display: 'inline',
-        width: '85%'
+        width: '85%',
+        marginBottom: '20px',
+        border: '0px'
     },
     serachIcon: {
         border: '0px',
         margin: '10px'
-    },
-    listItem: {
-        
     }
-
-
 }
