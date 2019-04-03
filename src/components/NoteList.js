@@ -27,7 +27,7 @@ export default function NoteList(props) {
 
     console.log('NOTELIST AT NOTELIST', noteList, props)
     return (
-        <React.Fragment>
+        <div style={styles.container}>
             <Row style={styles.titleRow}>
                 <ControlLabel style={styles.logo}>TODO!!!</ControlLabel>
                 <Button style={styles.addButton} onClick={()=> props.onClickAdd()}><i class="fas fa-plus"></i></Button>
@@ -39,11 +39,14 @@ export default function NoteList(props) {
             <Row>
                 <ListGroup>{ renderNoteList() }</ListGroup>    
             </Row>
-        </React.Fragment>
+        </div>
     );
 }
 
 const styles = {
+    container: {
+        padding: '10px 40px'
+    },
     titleRow: {
         padding: '20px'
     },
